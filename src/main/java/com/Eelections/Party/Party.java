@@ -15,7 +15,6 @@ public class Party {
     private Long id;
 
     //party info
-
     @Column(nullable = false,unique = true)
     private String name;
 
