@@ -44,4 +44,8 @@ public abstract class User {
 
     //Todo: add the photo of the user
 
+    //voting details
+    @Column(nullable = false)
+    private boolean Voted;
+
 }

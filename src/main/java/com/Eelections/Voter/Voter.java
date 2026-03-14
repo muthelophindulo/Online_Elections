@@ -1,6 +1,7 @@
 package com.Eelections.Voter;
 
 import com.Eelections.User.User;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
