@@ -28,12 +28,6 @@ public class WebController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @GetMapping("/login")
-    public ResponseEntity<Object> Login(){
-        log.info("user requested log in");
-        return ResponseEntity.ok().body("logged");
-    }
-
     @PostMapping("/register")
     public ResponseEntity<Object> register(@RequestBody Voter user){
         try {
@@ -58,7 +52,7 @@ public class WebController {
                 x.setEmail(user.getEmail());
                 x.setNationality(user.getNationality());
                 x.setRole(user.getRole());
-                x.setAdminNo("231002");
+                x.setAdminNo("231004");
                 return ResponseEntity.ok(adminService.Save(x));
             }
             else{
