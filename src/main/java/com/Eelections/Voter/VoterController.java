@@ -1,8 +1,73 @@
 package com.Eelections.Voter;
 
+import com.Eelections.User.User;
+import com.Eelections.User.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.security.Principal;
+import java.util.List;
+
+@RestController
+@RequestMapping("/voter")
 public class VoterController {
+    @Autowired
+    private VoterService voterService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @PostMapping("/register")
+    public ResponseEntity<Object> registerVoter(@RequestBody Voter user){
+        try{
+            Voter x = new Voter();
+            x.setPassword(passwordEncoder.encode(user.getPassword()));
+            x.setAddress(user.getAddress());
+            x.setName(user.getName());
+            x.setCellNumber(user.getCellNumber());
+            x.setIdNo(user.getIdNo());
+            x.setEmail(user.getEmail());
+            x.setNationality(user.getNationality());
+            x.setRole("VOTER");
+            User savedVoter = (Voter) voterService.save(x);
+            return ResponseEntity.ok(new VoterDTO(savedVoter.getName(),savedVoter.getEmail(),savedVoter.getCellNumber(),savedVoter.isVoted()));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @GetMapping("/view/name/{name}")
+    public VoterDTO viewVoter(@RequestParam String name){
+        return voterService.getVoter(name);
+    }
+
+    @GetMapping("/voter-list")
+    public List<VoterDTO> getVoters(){
+        return voterService.getVoters();
+    }
+
+    @GetMapping("/delete/{name}")
+    public ResponseEntity<Object> deleteVoter(@RequestParam String name){
+        return ResponseEntity.ok(HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/vote/{partyname}")
+    public ResponseEntity<?> vote(@RequestParam String partyName, Principal principal){
+        System.out.println(principal.getName());
+        if(voterService.vote(partyName,principal.getName())){
+            User voter = voterService.findVoter(voterService.getVoterByIdNo(principal.getName()).getName());
+            voter.setVoted(true);
+            userService.saveUser(voter);
+            return ResponseEntity.ok(HttpStatus.ACCEPTED);
+        }else{
+            return ResponseEntity.ok(HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
 }

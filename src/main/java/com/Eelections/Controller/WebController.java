@@ -20,9 +20,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class WebController {
     @Autowired
-    private VoterService voterService;
-
-    @Autowired
     private AdminService adminService;
 
     @Autowired
@@ -31,18 +28,7 @@ public class WebController {
     @PostMapping("/register")
     public ResponseEntity<Object> register(@RequestBody Voter user){
         try {
-            if(user.getRole().equalsIgnoreCase("voter")){
-                Voter x = new Voter();
-                x.setPassword(passwordEncoder.encode(user.getPassword()));
-                x.setAddress(user.getAddress());
-                x.setName(user.getName());
-                x.setCellNumber(user.getCellNumber());
-                x.setIdNo(user.getIdNo());
-                x.setEmail(user.getEmail());
-                x.setNationality(user.getNationality());
-                x.setRole(user.getRole());
-                return ResponseEntity.ok(voterService.save(x));
-            } else if (user.getRole().equalsIgnoreCase("admin")) {
+             if (user.getRole().equalsIgnoreCase("admin")) {
                 Admin x = new Admin();
                 x.setPassword(passwordEncoder.encode(user.getPassword()));
                 x.setAddress(user.getAddress());

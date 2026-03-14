@@ -29,7 +29,7 @@ public class SecurityConfig {
                                 "/javascript",
                                 "/css"
                                 ).permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/admin/**", "/voter/voter-list","/voter/view/name/{name}").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())
