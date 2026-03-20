@@ -5,7 +5,9 @@ package com.Eelections.Party;
 * 2. LIST PARTIES
 * 3. GET PARTY BY NAME
 * 4. GET PARTY BY ABBREVIATION
+* 5. ADD A PARTY TO BE A CANDIDATE TO AN ELECTION
 * */
+import com.Eelections.Elections.Election;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +19,8 @@ public class PartyService {
     @Autowired
     private PartyRepository partyRepository;
 
-    public Party saveParty(Party party){
-        return partyRepository.save(party);
+    public PartyDTO saveParty(Party party){
+        return mapParty(partyRepository.save(party));
     }
 
     public void deleteParty(Party party){
@@ -40,7 +42,10 @@ public class PartyService {
     public PartyDTO getParty(String name){
         return mapParty(partyRepository.findByName(name));
     }
-
+    public void addElectionToParty(Party party,Election election){
+        party.setElection(election);
+        partyRepository.save(party);
+    }
     public PartyDTO getPartyAbbr(String abbreviation){
         return mapParty(partyRepository.findByAbbreviation(abbreviation));
     }

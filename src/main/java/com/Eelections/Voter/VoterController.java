@@ -54,13 +54,18 @@ public class VoterController {
     }
 
     @GetMapping("/delete/{name}")
-    public ResponseEntity<Object> deleteVoter(@RequestParam String name){
-        return ResponseEntity.ok(HttpStatus.ACCEPTED);
+    public ResponseEntity<Object> deleteVoter(@RequestParam String name,Principal principal){
+        String username = principal.getName();
+        User x = userService.findByName(username);
+        if(x.getName().equals(name)){
+            userService.deleteUser(x);
+            return ResponseEntity.ok(HttpStatus.ACCEPTED);
+        }
+        return ResponseEntity.ok(HttpStatus.NOT_ACCEPTABLE);
     }
 
     @GetMapping("/vote/{partyname}")
     public ResponseEntity<?> vote(@RequestParam String partyName, Principal principal){
-        System.out.println(principal.getName());
         if(voterService.vote(partyName,principal.getName())){
             User voter = voterService.findVoter(voterService.getVoterByIdNo(principal.getName()).getName());
             voter.setVoted(true);

@@ -50,6 +50,9 @@ public class VoterService {
     public VoterDTO getVoterByIdNo(String id){
         return mapVoter(userRepository.findByIdNo(id));
     }
+    public Voter findVoterByIdNo(String id){
+        return (Voter)userRepository.findByIdNo(id);
+    }
 
     private List<VoterDTO> mapVoters(List<User> voters){
         List<VoterDTO> voterDTOList = new ArrayList<>();
