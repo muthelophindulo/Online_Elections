@@ -12,5 +12,4 @@ public class AdminDTO {
     private String email;
     private String cellNumber;
     private String adminNo;
-    private boolean voted;
 }

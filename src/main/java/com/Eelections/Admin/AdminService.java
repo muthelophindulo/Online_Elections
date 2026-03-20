@@ -38,13 +38,16 @@ public class AdminService {
         return adminRepository.save(admin);
     }
 
+    public Admin getByAdminNo(String adminNo){
+        return adminRepository.getByAdminNo(adminNo);
+    }
+
     public void delete(Admin admin){
         adminRepository.delete(admin);
     }
 
-
     // ADMIN PARTY FUNCTIONALITY
-    public Party addParty(Party party){
+    public PartyDTO addParty(Party party){
         return partyService.saveParty(party);
     }
 

@@ -49,7 +49,7 @@ public class AdminController {
             Admin saved = adminService.Save(x);
             saved.setAdminNo("22600"+saved.getId());
             adminService.Save(saved);
-            return ResponseEntity.ok(new AdminDTO(saved.getName(),saved.getEmail(),saved.getCellNumber(),saved.getAdminNo(),saved.isVoted()));
+            return ResponseEntity.ok(new AdminDTO(saved.getName(),saved.getEmail(),saved.getCellNumber(),saved.getAdminNo()));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

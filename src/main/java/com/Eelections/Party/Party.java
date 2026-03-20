@@ -1,9 +1,14 @@
 package com.Eelections.Party;
 
+import com.Eelections.Elections.Election;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -37,5 +42,10 @@ public class Party {
     //gallery
     @Column
     private String image; //Todo: add a column for photo of the party
+
+    @ManyToOne
+    @JoinColumn(name = "election_id", referencedColumnName = "id", nullable = true)
+    @ToString.Exclude
+    private Election election;
 
 }
