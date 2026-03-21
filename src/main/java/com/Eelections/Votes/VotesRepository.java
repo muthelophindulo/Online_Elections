@@ -1,4 +1,11 @@
 package com.Eelections.Votes;
 
-public class VotesRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface VotesRepository extends JpaRepository<Vote, Long> {
+    List<Vote> findByPartyName(String partyName);
 }

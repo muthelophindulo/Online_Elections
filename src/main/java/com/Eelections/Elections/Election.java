@@ -1,6 +1,7 @@
 package com.Eelections.Elections;
 
 import com.Eelections.Party.Party;
+import com.Eelections.Party.PartyDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,6 +35,6 @@ public class Election {
 
     @OneToMany(mappedBy = "election", cascade = CascadeType.ALL)
     @ToString.Exclude
-    private List<Party> parties;
+    private List<Party> parties = new ArrayList<>();
 
 }

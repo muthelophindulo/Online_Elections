@@ -58,13 +58,13 @@ public class SecurityConfig {
         http
                 .authenticationManager(authManager)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/admin/add-admin").permitAll()
                         .requestMatchers("/voter/register").permitAll()
                         .requestMatchers(
                                 "/election/add-election",
                                 "/voter/voter-list",
                                 "/party/add",
-                                "/admin/**"
+                                "/admin/**",
+                                "/votes/**"
                         ).hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )

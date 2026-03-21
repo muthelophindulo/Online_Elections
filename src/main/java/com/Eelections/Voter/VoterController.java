@@ -2,6 +2,8 @@ package com.Eelections.Voter;
 
 import com.Eelections.User.User;
 import com.Eelections.User.UserService;
+import com.Eelections.Votes.Vote;
+import com.Eelections.Votes.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,9 @@ public class VoterController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private VoteService voteService;
 
     @PostMapping("/register")
     public ResponseEntity<Object> registerVoter(@RequestBody Voter user){
@@ -66,12 +71,20 @@ public class VoterController {
 
     @GetMapping("/vote/{partyname}")
     public ResponseEntity<?> vote(@RequestParam String partyName, Principal principal){
-        if(voterService.vote(partyName,principal.getName())){
-            User voter = voterService.findVoter(voterService.getVoterByIdNo(principal.getName()).getName());
-            voter.setVoted(true);
-            userService.saveUser(voter);
-            return ResponseEntity.ok(HttpStatus.ACCEPTED);
-        }else{
+        Vote vote = new Vote();
+        try{
+            if(voterService.vote(partyName,principal.getName())){
+                User voter = voterService.findVoter(voterService.getVoterByIdNo(principal.getName()).getName());
+                voter.setVoted(true);
+                userService.saveUser(voter);
+                vote.setIdNo(voter.getIdNo());
+                vote.setPartyName(partyName);
+                voteService.saveVote(vote);
+                return ResponseEntity.ok(HttpStatus.ACCEPTED);
+            }else{
+                return ResponseEntity.ok(HttpStatus.NOT_ACCEPTABLE);
+            }
+        } catch (Exception e) {
             return ResponseEntity.ok(HttpStatus.NOT_ACCEPTABLE);
         }
     }

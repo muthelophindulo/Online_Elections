@@ -42,6 +42,10 @@ public class PartyService {
     public PartyDTO getParty(String name){
         return mapParty(partyRepository.findByName(name));
     }
+
+    public Party findParty(String name){
+        return partyRepository.findByName(name);
+    }
     public void addElectionToParty(Party party,Election election){
         party.setElection(election);
         partyRepository.save(party);
@@ -50,7 +54,7 @@ public class PartyService {
         return mapParty(partyRepository.findByAbbreviation(abbreviation));
     }
 
-    private List<PartyDTO> mapper(List<Party> xparties){
+    public List<PartyDTO> mapper(List<Party> xparties){
         List<PartyDTO> parties = new ArrayList<>();
 
         for(Party p : xparties){
