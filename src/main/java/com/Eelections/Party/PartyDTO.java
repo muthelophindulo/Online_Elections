@@ -13,5 +13,4 @@ public class PartyDTO {
     private String president;
     private String slogan;
     private String description;
-
 }

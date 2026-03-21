@@ -1,5 +1,6 @@
 package com.Eelections.Party;
 
+import com.Eelections.Elections.ElectionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +15,14 @@ public class PartyController {
     @Autowired
     private PartyService partyService;
 
-    @PostMapping("/add")
-    public ResponseEntity<Object> addParty(@RequestBody Party party){
+    @Autowired
+    private ElectionService electionService;
+
+    @PostMapping("/add/{electionName}")
+    public ResponseEntity<Object> addParty(@RequestBody Party party,@RequestParam String electionName){
         try {
             log.info("party being added.........");
-            return ResponseEntity.ok(partyService.saveParty(party));
+            return ResponseEntity.ok(electionService.addParty(party,electionService.getElection(electionName)));
         } catch (Exception e) {
             log.info("failed to add party");
             throw new RuntimeException(e);

@@ -7,6 +7,9 @@ package com.Eelections.Elections;
 * 5. add and delete elections
 * 6. get the number of candidates participating
 * */
+import com.Eelections.Party.Party;
+import com.Eelections.Party.PartyDTO;
+import com.Eelections.Party.PartyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,9 @@ import java.util.List;
 public class ElectionService {
     @Autowired
     private ElectionRepository electionRepository;
+
+    @Autowired
+    private PartyService partyService;
 
     public List<ElectionDTO> getElections(){
         return electionDTOList(electionRepository.findAll());
@@ -73,5 +79,11 @@ public class ElectionService {
         }else{
             return new ElectionDTO();
         }
+    }
+
+    //add parties to an election
+    public PartyDTO addParty(Party party, Election election){
+        party.setElection(election);
+        return  partyService.saveParty(party);
     }
 }
